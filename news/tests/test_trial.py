@@ -9,7 +9,7 @@ from news.models import News
 User = get_user_model()
 
 
-@skip()
+@skip('Test class')
 class TestNews(TestCase):
     # Все нужные переменные сохраняем в атрибуты класса.
     TITLE = 'Заголовок новости'
