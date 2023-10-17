@@ -13,7 +13,7 @@ from django.test import TestCase
 # Импортируем функцию reverse().
 from django.urls import reverse
 
-from news.models import Comment,News
+from news.models import Comment, News
 
 User = get_user_model()
 
