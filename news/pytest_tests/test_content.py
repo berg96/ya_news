@@ -21,8 +21,8 @@ def test_news_order(client, news_list):
 
 
 @pytest.mark.django_db
-def test_comments_order(comments_list, id_for_news, client):
-    response = client.get(reverse('news:detail', args=id_for_news))
+def test_comments_order(comments_list, detail_url, client):
+    response = client.get(detail_url)
     assert 'news' in response.context
     all_comments = response.context['news'].comment_set.all()
     assert all_comments[0].created < all_comments[1].created
@@ -37,10 +37,8 @@ def test_comments_order(comments_list, id_for_news, client):
     )
 )
 def test_availability_form_for_different_users(
-    parametrized_client, form_is_available, id_for_news
+    parametrized_client, form_is_available, detail_url
 ):
     assert (
-        'form' in parametrized_client.get(
-               reverse('news:detail', args=id_for_news)
-        ).context
+        'form' in parametrized_client.get(detail_url).context
     ) is form_is_available

@@ -44,7 +44,5 @@ def test_availability_for_comment_edit_and_delete(
     ('news:edit', 'news:delete')
 )
 def test_redirect_for_anonymous_client(client, name, id_for_comment):
-    assertRedirects(
-        client.get(reverse(name, args=id_for_comment)),
-        f'{reverse("users:login")}?next={reverse(name, args=id_for_comment)}'
-    )
+    url = reverse(name, args=id_for_comment)
+    assertRedirects(client.get(url), f'{reverse("users:login")}?next={url}')
