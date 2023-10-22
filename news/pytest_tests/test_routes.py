@@ -32,10 +32,10 @@ def test_pages_availability(client, name, args):
     ('news:edit', 'news:delete')
 )
 def test_availability_for_comment_edit_and_delete(
-        comment, parametrized_client, expected_status, name
+        id_for_comment, parametrized_client, expected_status, name
 ):
     assert parametrized_client.get(
-        reverse(name, args=(comment.id,))
+        reverse(name, args=id_for_comment)
     ).status_code == expected_status
 
 
@@ -43,8 +43,8 @@ def test_availability_for_comment_edit_and_delete(
     'name',
     ('news:edit', 'news:delete')
 )
-def test_redirect_for_anonymous_client(client, name, comment):
+def test_redirect_for_anonymous_client(client, name, id_for_comment):
     assertRedirects(
-        client.get(reverse(name, args=(comment.id,))),
-        f'{reverse("users:login")}?next={reverse(name, args=(comment.id,))}'
+        client.get(reverse(name, args=id_for_comment)),
+        f'{reverse("users:login")}?next={reverse(name, args=id_for_comment)}'
     )
