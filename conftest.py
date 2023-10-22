@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 import pytest
 from django.conf import settings
+from django.utils import timezone
 
 from news.models import Comment, News
 
@@ -34,9 +35,9 @@ def author_client(author, client):
 @pytest.fixture
 def comment(author, news):
     comment = Comment.objects.create(
-        news = news,
-        author = author,
-        text = 'Text',
+        news=news,
+        author=author,
+        text='Text',
     )
     return comment
 
@@ -57,3 +58,14 @@ def news_list():
         )
         for index in range(settings.NEWS_COUNT_ON_HOME_PAGE + 1)
     )
+
+
+@pytest.fixture
+def comments_list(news, author):
+    now = timezone.now()
+    for index in range(2):
+        comment = Comment.objects.create(
+            news=news, author=author, text=f'Tекст {index}',
+        )
+        comment.created = now + timedelta(days=index)
+        comment.save()
